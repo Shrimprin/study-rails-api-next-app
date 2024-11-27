@@ -26,4 +26,9 @@ group :development, :test do
 
   # rspecを使えるようにする
   gem 'rspec-rails'
+
+  # rubocop を使えるようにする。
+  gem "rubocop-faker"
+  gem "rubocop-rails"
+  gem "rubocop-rspec"
 end
