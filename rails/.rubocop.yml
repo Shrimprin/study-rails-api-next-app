@@ -8,3 +8,5 @@ inherit_from:
 
 AllCops:
   TargetRubyVersion: 3.1.2
+  NewCops: disable # 新しいコップを無効化
+  SuggestExtensions: false # 拡張機能の提案を無効化
