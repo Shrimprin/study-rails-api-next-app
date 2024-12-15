@@ -24,6 +24,9 @@ gem "kaminari"
 # ユーザーのトークン認証を提供する
 gem "devise_token_auth"
 
+# enum を日本語化する
+gem "enum_help"
+
 # MySQLに接続する
 gem "mysql2", "~> 0.5"
 
