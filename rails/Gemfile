@@ -18,6 +18,9 @@ gem "devise"
 # devise を日本語化する
 gem "devise-i18n"
 
+# ページネーション機能を提供する
+gem "kaminari"
+
 # ユーザーのトークン認証を提供する
 gem "devise_token_auth"
 
