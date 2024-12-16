@@ -1,6 +1,7 @@
 import axios, { AxiosResponse, AxiosError } from "axios";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
 type SignInFormData = {
@@ -10,12 +11,27 @@ type SignInFormData = {
 
 const SignIn: NextPage = () => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const { handleSubmit, control } = useForm<SignInFormData>({
     defaultValues: { email: "", password: "" },
   });
 
+  const validationRules = {
+    email: {
+      required: "メールアドレスを入力してください。",
+      pattern: {
+        value:
+          /^[a-zA-Z0-9_+-]+(.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/,
+        message: "正しい形式のメールアドレスを入力してください。",
+      },
+    },
+    password: {
+      required: "パスワードを入力してください。",
+    },
+  };
   const onSubmit: SubmitHandler<SignInFormData> = (data) => {
+    setIsLoading(true);
     const url = process.env.NEXT_PUBLIC_API_BASE_URL + "/auth/sign_in";
     const headers = { "Content-Type": "application/json" };
 
@@ -28,6 +44,7 @@ const SignIn: NextPage = () => {
       })
       .catch((e: AxiosError<{ error: string }>) => {
         console.log(e.message);
+        setIsLoading(false);
       });
   };
 
@@ -40,38 +57,61 @@ const SignIn: NextPage = () => {
           </h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
-          <div className="rounded-md shadow-sm -space-y-px">
+          <div className="rounded-md shadow-sm space-y-4">
             <Controller
               name="email"
               control={control}
-              render={({ field }) => (
-                <input
-                  {...field}
-                  type="text"
-                  placeholder="メールアドレス"
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                />
+              rules={validationRules.email}
+              render={({ field, fieldState }) => (
+                <>
+                  <input
+                    {...field}
+                    type="text"
+                    placeholder="メールアドレス"
+                    className={`appearance-none rounded-none relative block w-full px-3 py-2 border ${
+                      fieldState.invalid ? "border-red-500" : "border-gray-300"
+                    } placeholder-gray-500 text-gray-900 rounded-t-md sm:text-sm`}
+                  />
+                  {fieldState.invalid && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {fieldState.error?.message}
+                    </p>
+                  )}
+                </>
               )}
             />
             <Controller
               name="password"
               control={control}
-              render={({ field }) => (
-                <input
-                  {...field}
-                  type="password"
-                  placeholder="パスワード"
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                />
+              rules={validationRules.password}
+              render={({ field, fieldState }) => (
+                <>
+                  <input
+                    {...field}
+                    type="password"
+                    placeholder="パスワード"
+                    className={`appearance-none rounded-none relative block w-full px-3 py-2 border ${
+                      fieldState.invalid ? "border-red-500" : "border-gray-300"
+                    } placeholder-gray-500 text-gray-900 rounded-b-md sm:text-sm`}
+                  />
+                  {fieldState.invalid && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {fieldState.error?.message}
+                    </p>
+                  )}
+                </>
               )}
             />
           </div>
           <div>
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${
+                isLoading ? "bg-gray-400" : "bg-indigo-600 hover:bg-indigo-700"
+              } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+              disabled={isLoading}
             >
-              送信する
+              {isLoading ? "送信中..." : "送信する"}
             </button>
           </div>
         </form>
