@@ -28,7 +28,22 @@ const Header = () => {
                   </button>
                 </div>
               )}
-              {user.isSignedIn && <p>{user.name}</p>}
+              {user.isSignedIn && (
+                <div>
+                  <p>{user.name}</p>
+                  <button className="bg-blue-500 text-white text-lg rounded-md shadow-none px-4 py-2 mr-2">
+                    記事の管理
+                  </button>
+                  <button className="bg-green-500 text-white text-lg rounded-md shadow-none px-4 py-2 mr-2">
+                    記事を作成する
+                  </button>
+                  <Link href="/sign_out">
+                    <button className="bg-red-500 text-white text-lg rounded-md shadow-none px-4 py-2">
+                      Sign out
+                    </button>
+                  </Link>
+                </div>
+              )}{" "}
             </>
           )}
         </div>
