@@ -1,5 +1,6 @@
 import camelcaseKeys from "camelcase-keys";
 import type { NextPage } from "next";
+import Link from "next/link";
 import useSWR from "swr";
 import Error from "@/components/Error";
 import Loading from "@/components/Loading";
@@ -63,17 +64,19 @@ const CurrentArticles: NextPage = () => {
                       </svg>
                     </button>
                   </div>
-                  <div className="bg-gray-100 p-2 rounded-full">
-                    <button title="表示を確認" className="text-gray-500">
-                      <svg
-                        className="w-5 h-5"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M12 4.5C7.305 4.5 3.135 7.11 1 12c2.135 4.89 6.305 7.5 11 7.5s8.865-2.61 11-7.5c-2.135-4.89-6.305-7.5-11-7.5zm0 13c-3.59 0-6.5-2.91-6.5-6.5S8.41 4.5 12 4.5s6.5 2.91 6.5 6.5-2.91 6.5-6.5 6.5z" />
-                      </svg>
-                    </button>
-                  </div>
+                  <Link href={"/current/articles/" + article.id}>
+                    <div className="bg-gray-100 p-2 rounded-full">
+                      <button title="表示を確認" className="text-gray-500">
+                        <svg
+                          className="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M12 4.5C7.305 4.5 3.135 7.11 1 12c2.135 4.89 6.305 7.5 11 7.5s8.865-2.61 11-7.5c-2.135-4.89-6.305-7.5-11-7.5zm0 13c-3.59 0-6.5-2.91-6.5-6.5S8.41 4.5 12 4.5s6.5 2.91 6.5 6.5-2.91 6.5-6.5 6.5z" />
+                        </svg>
+                      </button>
+                    </div>
+                  </Link>
                 </div>
               </div>
             </div>
