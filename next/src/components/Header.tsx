@@ -31,9 +31,11 @@ const Header = () => {
               {user.isSignedIn && (
                 <div>
                   <p>{user.name}</p>
-                  <button className="bg-blue-500 text-white text-lg rounded-md shadow-none px-4 py-2 mr-2">
-                    記事の管理
-                  </button>
+                  <Link href="/current/articles">
+                    <button className="bg-blue-500 text-white text-lg rounded-md shadow-none px-4 py-2 mr-2">
+                      記事の管理
+                    </button>
+                  </Link>
                   <button className="bg-green-500 text-white text-lg rounded-md shadow-none px-4 py-2 mr-2">
                     記事を作成する
                   </button>
