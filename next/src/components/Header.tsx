@@ -1,9 +1,34 @@
+import axios, { AxiosResponse, AxiosError } from "axios";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useUserState } from "@/hooks/useGlobalState";
 
 const Header = () => {
   const [user] = useUserState();
+  const router = useRouter();
+
+  const hideHeaderPathnames = ["/current/articles/edit/[id]"];
+  if (hideHeaderPathnames.includes(router.pathname)) return <></>;
+
+  const addNewArticle = () => {
+    const url = process.env.NEXT_PUBLIC_API_BASE_URL + "/current/articles";
+
+    const headers = {
+      "Content-Type": "application/json",
+      "access-token": localStorage.getItem("access-token"),
+      client: localStorage.getItem("client"),
+      uid: localStorage.getItem("uid"),
+    };
+
+    axios({ method: "POST", url: url, headers: headers })
+      .then((res: AxiosResponse) => {
+        router.push("/current/articles/edit/" + res.data.id);
+      })
+      .catch((e: AxiosError<{ error: string }>) => {
+        console.log(e.message);
+      });
+  };
 
   return (
     <header className="bg-white text-black py-3 shadow-none">
@@ -36,7 +61,10 @@ const Header = () => {
                       記事の管理
                     </button>
                   </Link>
-                  <button className="bg-green-500 text-white text-lg rounded-md shadow-none px-4 py-2 mr-2">
+                  <button
+                    className="bg-green-500 text-white text-lg rounded-md shadow-none px-4 py-2 mr-2"
+                    onClick={addNewArticle}
+                  >
                     記事を作成する
                   </button>
                   <Link href="/sign_out">
