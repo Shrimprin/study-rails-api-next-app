@@ -48,9 +48,11 @@ const Header = () => {
                       Sign in
                     </button>
                   </Link>
-                  <button className="border border-blue-500 text-lg rounded-md shadow-none px-4 py-2 ml-2">
-                    Sign Up
-                  </button>
+                  <Link href="/sign_up">
+                    <button className="border border-blue-500 text-lg rounded-md shadow-none px-4 py-2 ml-2">
+                      Sign Up
+                    </button>
+                  </Link>
                 </div>
               )}
               {user.isSignedIn && (
