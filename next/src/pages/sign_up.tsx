@@ -2,9 +2,8 @@ import axios, { AxiosResponse, AxiosError } from "axios";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { useSnackbarState } from "@/hooks/useGlobalState";
-import { styles } from "@/styles";
 
 type SignUpFormData = {
   email: string;
